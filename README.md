@@ -29,7 +29,6 @@ PR: #7831 [Check this out!](https://github.com/huggingface/datasets/pull/7831)
 
 Merged into: main (Oct 28, 2025)
 
----
 
 ### What Was the Issue?
 
@@ -39,7 +38,7 @@ When users called train_test_split() with the stratify_by_column parameter, it f
 
 This happened because NumPy 2.x enforces stricter rules around memory laIt. The stratification column was coming from an Arrow-backed array that is often non-contiguous in memory, and NumPy 2.x refuses implicit unsafe conversions that previously worked in 1.x.
 
----
+
 
 ### As a result:
 
@@ -47,7 +46,7 @@ This happened because NumPy 2.x enforces stricter rules around memory laIt. The 
 
 - Existing workflows using class-balanced splits stopped working.
 
----
+
 
 ### What I Changed
 
@@ -57,7 +56,7 @@ I wrapped the stratification column access in:
 
 inside arrow_dataset.py.
 
----
+
 
 ### Why This Works
 
@@ -69,6 +68,7 @@ inside arrow_dataset.py.
 
 ---
 ---
+
 ## PR: Add Unit Tests for `get_previous_step_or_raise`
 
 Repository: Hugging Face – dataset-viewer
@@ -77,7 +77,7 @@ PR: #3218 [Check this out!](https://github.com/huggingface/dataset-viewer/pull/3
 
 Merged into: main (Jul 12, 2025)
 
----
+
 
 ### What Was the Issue?
 
@@ -91,7 +91,7 @@ The function is responsible for retrieving cached step artifacts or raising appr
 
 However, it previously lacked direct unit tests validating these behaviors.
 
----
+
 
 ### As a Result:
 
@@ -99,7 +99,7 @@ However, it previously lacked direct unit tests validating these behaviors.
 * Error pathways were unverified
 * Regression risk existed around cache state handling
 
----
+
 
 ### What I Changed
 
@@ -116,7 +116,7 @@ The tests use official helper utilities:
 
 This ensures consistency with the existing cache infrastructure.
 
----
+
 
 ### Why This Works
 
@@ -138,7 +138,7 @@ PR: #3206 [Check this out!](https://github.com/huggingface/dataset-viewer/pull/3
 
 Merged into: main (Jul 17, 2025)
 
----
+
 
 ### What Was the Issue?
 
@@ -148,7 +148,7 @@ With `huggingface_hub>=0.25.0`, the official `HfApi.update_repo_settings()` now 
 
 This made the internal re-implementations redundant.
 
----
+
 
 ### As a Result:
 
@@ -157,7 +157,7 @@ This made the internal re-implementations redundant.
 * Unnecessary imports and helper code cluttered the test setup
 * Risk of divergence from official hub behavior
 
----
+
 
 ### What I Changed
 
@@ -183,7 +183,7 @@ Total impact: **26 additions / 222 deletions**, a net simplification.
 
 Closes: #3063
 
----
+
 
 ### Why This Works
 
@@ -204,7 +204,7 @@ PR: #7648 [Check this out!](https://github.com/huggingface/datasets/pull/7648)
 
 Merged into: main (Jul 17, 2025)
 
----
+
 
 ### What Was the Issue?
 
@@ -215,7 +215,7 @@ Users must assign the result to a variable to preserve the change.
 
 This mismatch between documentation and behavior caused confusion.
 
----
+
 
 ### As a Result:
 
@@ -223,7 +223,7 @@ This mismatch between documentation and behavior caused confusion.
 * Silent logical errors could occur if the returned dataset was not reassigned
 * The documentation did not accurately reflect functional semantics
 
----
+
 
 ### What I Changed
 
@@ -247,7 +247,7 @@ All updated to clarify that these methods return new datasets rather than modify
 
 Fixes: #7611
 
----
+
 
 ### Why This Works
 
@@ -267,7 +267,6 @@ PR: #7623 [Check this out!](https://github.com/huggingface/datasets/pull/7623)
 
 Merged into: main (Jun 18, 2025)
 
----
 
 ### What Was the Issue?
 
@@ -286,7 +285,7 @@ This behavior applied to folder-based builders such as:
 
 Instead of failing early, the system would scan the working directory.
 
----
+
 
 ### As a Result:
 
@@ -297,7 +296,7 @@ Instead of failing early, the system would scan the working directory.
 
 This issue was discussed in #6152.
 
----
+
 
 ### What I Changed
 
@@ -311,7 +310,6 @@ Now, if neither `data_dir` nor `data_files` is provided, a `ValueError` is raise
 
 The validation is localized within the specific builder class rather than implemented in a generic loader layer.
 
----
 
 ### Why This Works
 
